@@ -24,17 +24,17 @@ def get_aqi(city):
 
 def get_aqi_color(aqi):
     if aqi <= 50:
-        return "green"
+        return "green","Good 😄"
     elif aqi <= 100:
-        return "yellow"
+        return "yellow","Moderate 🙂"
     elif aqi <= 150:
-        return "orange"
+        return "orange","Unhealthy for Sensitive Groups 😕"
     elif aqi <= 200:
-        return "red"
+        return "red","Unhealthy 😷"
     elif aqi <= 300:
-        return "purple"
+        return "purple","Very Unhealthy 🤢"
     else:
-        return "maroon"
+        return "maroon","Hazardous ☠️"
 
 # --------------------------
 # UI
@@ -88,6 +88,14 @@ if st.button("Check AQI"):
         aqi = details["aqi"]
 
         # Store pollutants in session state
+        forecast = details.get("forecast", {})
+        daily = forecast.get("daily", {})
+        pm25_data = daily["pm25"]
+        trend = [{"date": item["day"], "pollution": item["avg"]} for item in pm25_data] # use PM25 avg as daily pollution indicator
+        df_trend = pd.DataFrame(trend)
+        df_trend["date"] = pd.to_datetime(df_trend["date"])
+        st.session_state.df_trend = df_trend
+        
         iaqi = details.get("iaqi", {})
         pollutants = {k: v.get("v") for k, v in iaqi.items()}
         df = pd.DataFrame(pollutants.items(), columns=["Pollutant", "Value"])
@@ -98,7 +106,9 @@ if st.button("Check AQI"):
 # --------------------------
 # Display AQI and Charts if data exists
 # --------------------------
-if "df" in st.session_state and not st.session_state.df.empty:
+if "df" and "df_trend" in st.session_state and not st.session_state.df.empty:
+   
+    df_trend = st.session_state.df_trend.copy()
 
     aqi = st.session_state.aqi
     details = st.session_state.details
@@ -108,11 +118,12 @@ if "df" in st.session_state and not st.session_state.df.empty:
 
     # AQI Box
     st.markdown("## 🌫️ Current Air Quality")
-    aqi_color = get_aqi_color(aqi)
+    aqi_color,aqi_text = get_aqi_color(aqi)
     st.markdown(
         f"""
         <div style="padding:20px; border-radius:10px; background:{aqi_color}; color:white; text-align:center;">
             <h1 style="margin:0;">AQI: {aqi}</h1>
+            <p style="margin:0; font-size:20px; font-weight:bold;">{aqi_text}</p>
             <p style="margin:0; font-size:18px;">{city.title()}</p>
         </div>
         """,
@@ -128,16 +139,26 @@ if "df" in st.session_state and not st.session_state.df.empty:
     # Plot chart
     if chart_type == "Bar Chart":
         fig = px.bar(df, x="Pollutant", y="Value", title="Pollutant Concentrations")
+        fig1 = px.bar(df_trend,x="date",y="pollution",title="Weekly Pollution Trend")
     elif chart_type == "Line Chart":
-        fig = px.line(df, x="Pollutant", y="Value", title="Pollutant Trends")
+        fig = px.line(df, x="Pollutant", y="Value", title="Pollutant Trends",markers=True)
+        fig1 = px.line(df_trend,x="date",y="pollution",title="Weekly Pollution Trend",markers=True)
     elif chart_type == "Pie Chart":
         fig = px.pie(df, names="Pollutant", values="Value", title="Pollutant Distribution")
+        fig1 = px.pie(df_trend, names="date", values="pollution", title="Weekly Pollution Contribution")
     elif chart_type == "Scatter Plot":
         fig = px.scatter(df, x="Pollutant", y="Value", size="Value", title="Pollutant Scatter Graph")
+        fig1 = px.scatter(df_trend,x="date",y="pollution",size="pollution",title="Weekly Pollution Trend")
     elif chart_type == "Area Chart":
         fig = px.area(df, x="Pollutant", y="Value", title="Pollutant Area Chart")
+        fig1 = px.area(df_trend,x="date",y="pollution",title="Weekly Pollution Trend")
 
+    #SHOW BOTH CHARTS
+    st.subheader("📊 Pollutant Chart")
     st.plotly_chart(fig)
+
+    st.subheader("📈 Weekly Pollution Trend")
+    st.plotly_chart(fig1)
 
     # Metadata
     st.markdown("### 📍 Location Info")
@@ -146,8 +167,8 @@ if "df" in st.session_state and not st.session_state.df.empty:
     st.write(f"**Station:** {details['city']['name']}")
 
     # Optional: Raw JSON
-    with st.expander("See raw data"):
-        st.json(details)
+    # with st.expander("See raw data"):
+    #     st.json(details)
 
 else:
     st.info("Click 'Check AQI' first to load data.")
