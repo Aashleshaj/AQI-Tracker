@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     # SDLC_ENVIRONMENT: "$1"
-    DOCKER_IMAGE_NAME: "$1"
+    DOCKER_IMAGE_NAME: "aqi-tracker"
     # GIT_REPO: "https://git-codecommit.us-east-1.amazonaws.com/v1/repos/dockerecrtestbuild"
 phases:
   install:
