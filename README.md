@@ -42,3 +42,6 @@ Pandas (data handling)
 Plotly Express (interactive charts)
 
 WAQI API (data source)
+
+## Docker Image Creation using CodeBuild
+- buildspec.yml file
