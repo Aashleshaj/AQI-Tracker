@@ -1,0 +1,9 @@
+services:
+  aqi-tracker:
+    container_name: aqi-tracker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"
+    restart: always
