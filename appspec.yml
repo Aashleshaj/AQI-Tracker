@@ -1,0 +1,35 @@
+version: 0.0
+
+os: linux
+
+files:
+  - source: /
+    destination: //ec2-user/aqi-tracker
+
+permissions:
+  - object: //ec2-user/aqi-tracker
+    pattern: "**"
+    owner: ec2-user
+    group: ec2-user
+    mode: 755
+
+hooks:
+  BeforeInstall:
+    - location: scripts/stop_docker.sh
+      timeout: 300
+      runas: ec2-user
+
+  AfterInstall:
+    - location: scripts/install_dependencies.sh
+      timeout: 300
+      runas: ec2-user
+
+  ApplicationStart:
+    - location: scripts/start_docker_compose.sh
+      timeout: 300
+      runas: ec2-user
+
+  ValidateService:
+    - location: scripts/validate_service.sh
+      timeout: 120
+      runas: ec2-user
