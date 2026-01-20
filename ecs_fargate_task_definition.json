@@ -1,6 +1,7 @@
 {
   "family": "aqi-tracker-task",
   "networkMode": "awsvpc",
+  "executionRoleArn": "arn:aws:iam::082923708139:role/ecsTaskexecutionRoleAQI",
   "containerDefinitions": [
     {
       "name": "aqi-tracker",
