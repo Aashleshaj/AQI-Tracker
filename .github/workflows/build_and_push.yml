@@ -1,0 +1,115 @@
+name: Build and Push Docker Image to ECR
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+env:
+  DOCKER_IMAGE_NAME: aqi-tracker
+  AWS_REGION: ap-south-1
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-push:
+    runs-on: python-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+        continue-on-error: true
+
+      - name: Print build information
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit SHA: ${{ github.sha }}"
+          echo "Build Number: ${{ github.run_number }}"
+          echo "Working Directory: $(pwd)"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        continue-on-error: true
+
+      - name: Create ECR repository if it doesn't exist
+        if: steps.login-ecr.outcome == 'success'
+        run: |
+          ECR_REPO_NAME="${DOCKER_IMAGE_NAME}-ecr-repo"
+          echo "ECR Repository: $ECR_REPO_NAME"
+          aws ecr describe-repositories --repository-names ${ECR_REPO_NAME} || \
+          aws ecr create-repository --repository-name ${ECR_REPO_NAME}
+        env:
+          AWS_REGION: ${{ env.AWS_REGION }}
+
+      - name: Build Docker image
+        id: docker-build
+        run: |
+          IMAGE_NAME="${DOCKER_IMAGE_NAME}-${{ github.run_number }}"
+          echo "image_name=${IMAGE_NAME}" >> $GITHUB_OUTPUT
+          docker build -t ${IMAGE_NAME} .
+          echo "Docker build completed for image: ${IMAGE_NAME}"
+
+      - name: Tag Docker image for ECR
+        if: steps.login-ecr.outcome == 'success'
+        run: |
+          REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          ECR_REPO_NAME="${DOCKER_IMAGE_NAME}-ecr-repo"
+          IMAGE_NAME="${DOCKER_IMAGE_NAME}-${{ github.run_number }}"
+          FULLNAME="${REGISTRY}/${ECR_REPO_NAME}:${IMAGE_NAME}"
+          
+          echo "Tagging image: ${IMAGE_NAME} -> ${FULLNAME}"
+          docker tag ${IMAGE_NAME} ${FULLNAME}
+          echo "fullname=${FULLNAME}" >> $GITHUB_OUTPUT
+        env:
+          AWS_REGION: ${{ env.AWS_REGION }}
+
+      - name: Push Docker image to ECR
+        if: steps.login-ecr.outcome == 'success'
+        run: |
+          REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          ECR_REPO_NAME="${DOCKER_IMAGE_NAME}-ecr-repo"
+          IMAGE_NAME="${DOCKER_IMAGE_NAME}-${{ github.run_number }}"
+          FULLNAME="${REGISTRY}/${ECR_REPO_NAME}:${IMAGE_NAME}"
+          
+          echo "Pushing image to ECR: ${FULLNAME}"
+          docker push ${FULLNAME}
+          echo "Docker push completed successfully"
+          echo "Image pushed: ${FULLNAME}"
+        env:
+          AWS_REGION: ${{ env.AWS_REGION }}
+
+      - name: List Docker images
+        run: docker images | grep aqi-tracker || echo "No aqi-tracker images found"
+
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: |
+            ${{ github.workspace }}/
+          retention-days: 7
+        continue-on-error: true
+
+      - name: Notify on Failure
+        if: failure()
+        run: echo "Build failed! Check logs at ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
