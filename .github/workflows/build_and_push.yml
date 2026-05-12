@@ -31,7 +31,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
-        continue-on-error: true
+        # continue-on-error: true
 
       - name: Print build information
         run: |
@@ -47,7 +47,7 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-        continue-on-error: true
+        # continue-on-error: true
 
       - name: Create ECR repository if it doesn't exist
         if: steps.login-ecr.outcome == 'success'
@@ -107,7 +107,7 @@ jobs:
           path: |
             ${{ github.workspace }}/
           retention-days: 7
-        continue-on-error: true
+        # continue-on-error: true
 
       - name: Notify on Failure
         if: failure()
