@@ -4,11 +4,10 @@ on:
   push:
     branches:
       - main
-      - develop
-  pull_request:
-    branches:
-      - main
-      - develop
+  # pull_request:
+  #   branches:
+  #     - main
+  #     - develop
   workflow_dispatch:
 
 env:
@@ -21,7 +20,7 @@ permissions:
 
 jobs:
   build-and-push:
-    runs-on: python-latest
+    runs-on: ubuntu-latest
     
     steps:
       - name: Checkout code
