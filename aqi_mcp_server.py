@@ -9,19 +9,6 @@ from mcp.server.fastmcp import FastMCP
 script_dir = Path(__file__).parent
 env_path = script_dir / ".env"
 
-# --- DIAGNOSTIC CODE START ---
-print("\n=================== DIAGNOSTIC START ===================")
-print(f"Current Script Location: {__file__}")
-print(f"Looking for .env at: {env_path}")
-print(f"Does the .env file exist? {env_path.exists()}")
-
-# Print all files in this directory to see what Windows named it
-print("Files found in this directory:")
-for file in script_dir.iterdir():
-    print(f" - {file.name}")
-print("==================== DIAGNOSTIC END ====================\n")
-# --- DIAGNOSTIC CODE END ---
-
 # Load with the explicit path
 load_dotenv(dotenv_path=env_path)
 # load_dotenv()

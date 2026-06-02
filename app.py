@@ -66,7 +66,7 @@ def get_aqi_color(aqi):
 def parse_user_intent(user_text):
     """
     Uses a local LLM (Ollama) to extract the city name or reject the query.
-    Assumes Ollama is running locally with the 'llama3' (or similar) model.
+    Assumes Ollama is running locally with the 'gemma3:4b' (or similar) model.
     """
     prompt = f"""
     You are an Air Quality extraction tool. 
@@ -75,7 +75,8 @@ def parse_user_intent(user_text):
     Rules:
     1. If the user is asking about air quality, pollution, or AQI for a specific city, extract ONLY the city name.
     2. Output the result in strictly valid JSON format: {{"city": "ExtractedCityName"}}
-    3. If the user asks about ANY other topic (e.g., weather, history, coding, general facts), or if no city is mentioned, output strictly: {{"error": "I don't have info"}}
+    3. If your only mention city without any AQI-related keywords, directly output the city name as well, assuming they want AQI info for that city.
+    4. If the user asks about ANY other topic (e.g., weather, history, coding, general facts), or if no city is mentioned, output strictly: {{"error": "I don't have info"}}
     
     Return ONLY the JSON object, with no markdown formatting or extra text.
     """
