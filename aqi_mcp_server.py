@@ -9,6 +9,7 @@ from mcp.server.fastmcp import FastMCP
 script_dir = Path(__file__).parent
 env_path = script_dir / ".env"
 
+
 # Load with the explicit path
 load_dotenv(dotenv_path=env_path)
 # load_dotenv()
