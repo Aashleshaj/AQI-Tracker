@@ -57,7 +57,8 @@ Run the Streamlit frontend. The app will automatically initialize and communicat
 ```Bash
 streamlit run app.py
 ```
-💡 **How It Works (The Request Flow)**
+💡 **How It Works (The Request Flow)**<br>
+
 **User Input**: The user types a natural language query in the Streamlit chat.
 
 **Intent Extraction**: The query is sent to the local Ollama LLM, which extracts the target city and formats it into a strict JSON object.
