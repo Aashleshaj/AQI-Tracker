@@ -5,6 +5,7 @@ import json
 import requests
 import asyncio
 import sys
+import os
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
@@ -80,12 +81,13 @@ def parse_user_intent(user_text):
     
     Return ONLY the JSON object, with no markdown formatting or extra text.
     """
-    
+    # Fetch the URL dynamically, defaulting to the Docker host alias
+    ollama_url = os.environ.get("OLLAMA_BASE_URL", "http://host.docker.internal:11434")
     try:
         response = requests.post(
-            "http://localhost:11434/api/generate",
+            f"{ollama_url}/api/generate",
             json={
-                "model": "gemma3:4b",
+                "model": os.environ.get("OLLAMA_AQI_MODEL"),
                 "prompt": prompt,
                 "stream": False,
                 "format": "json"
@@ -94,7 +96,7 @@ def parse_user_intent(user_text):
         response_data = response.json()
         return json.loads(response_data["response"])
     except Exception as e:
-        return {"error": "Failed to process query with LLM."}
+        return {"error": "Failed to process query with LLM.", "details": str(e)}
 
 # --------------------------
 # UI & CHAT STATE
@@ -122,7 +124,7 @@ if prompt := st.chat_input("E.g., 'What is the AQI in London today?' or 'How is 
         
     with st.chat_message("assistant"):
         if "error" in intent:
-            error_msg = intent["error"]
+            error_msg = f"**{intent['error']}**\n\n*Technical Details: {intent.get('details', 'No details provided')}*"
             st.markdown(error_msg)
             st.session_state.messages.append({"role": "assistant", "content": error_msg})
         
