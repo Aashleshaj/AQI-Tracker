@@ -1,23 +1,19 @@
 FROM python:3.13-slim
-ENV MICRO_SERVICE=/home/app/webapp
-# passing argument from build stage to environment variable
-ARG SDLC_ARG
-ENV SDLC_ENV=${SDLC_ARG}
 
-# set work directory
-RUN mkdir -p $MICRO_SERVICE
-# where your code lives
+# 2. Set the working directory inside the container
+WORKDIR /app
 
-WORKDIR $MICRO_SERVICE
-# set environment variables
-ENV DEBIAN_FRONTEND=noninteractive
-
-# install dependencies
-RUN pip install --upgrade pip
-
-#COPY src/ $MICRO_SERVICE
-COPY ./app.py   $MICRO_SERVICE
-COPY ./requirements.txt   $MICRO_SERVICE
+# 3. COPY dependencies list and install them securely
+COPY requirements.txt   .
 RUN pip install -r requirements.txt
+
+# 4. COPY the rest of your application code
+COPY app.py /app/app.py
+COPY aqi_mcp_server.py /app/aqi_mcp_server.py
+COPY .env /app/.env
+
+# 5. Expose the port your application will run on (e.g., 8501 for Streamlit)
 EXPOSE 8501
-CMD streamlit run app.py --server.port=8501 --server.address=0.0.0.0
+
+# 6. Define the default command to run app
+CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
