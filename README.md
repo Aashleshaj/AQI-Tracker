@@ -3,6 +3,7 @@
 A production-ready Air Quality Index (AQI) tracking system that evolved from a static data dashboard into an intelligent, conversational AI assistant. This project demonstrates modern architectural patterns by decoupling frontend interfaces from backend services using the **Model Context Protocol (MCP)** and integrating local Large Language Models (LLMs) for natural language processing.
 
 ## 🚀 Version Evolution & Architecture
+![AQI Tracker Architecture Flow](data/flowchart.png)
 
 ### Version 1.1 (Legacy Dashboard) - `app.py`
 The initial release functioned as a traditional, tightly-coupled data dashboard:
