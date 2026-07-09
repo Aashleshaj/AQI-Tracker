@@ -74,11 +74,10 @@ def parse_user_intent(user_text):
     Analyze the following user query: "{user_text}"
     
     Rules:
-    1. If the user is asking about air quality, pollution, or AQI for a specific city, extract ONLY the city name.
-    2. Output the result in strictly valid JSON format: {{"city": "ExtractedCityName"}}
-    3. If your only mention city without any AQI-related keywords, directly output the city name as well, assuming they want AQI info for that city.
-    4. If the user asks about ANY other topic (e.g., weather, history, coding, general facts), or if no city is mentioned, output strictly: {{"error": "I don't have info"}}
-    
+    1. If the user asks about ANY other topic with city name (e.g., weather, history, coding, general facts), or if no city is mentioned, output strictly: {{"error": "I don't have info"}}
+    2. If the user is asking about air quality, pollution, or AQI for a specific city, extract ONLY the city name.
+    3. Output the result in strictly valid JSON format: {{"city": "ExtractedCityName"}}
+
     Return ONLY the JSON object, with no markdown formatting or extra text.
     """
     # Fetch the URL dynamically, defaulting to the Docker host alias
