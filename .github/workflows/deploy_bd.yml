@@ -2,7 +2,7 @@ name: Deploy AQI Tracker to Amazon ECS
 
 on:
   push:
-    branches: [ "main", "master", "ecs_deployment" ]
+    branches: [ "main", "master" ]
 
 env:
   AWS_REGION: ap-south-1                  
@@ -80,7 +80,7 @@ jobs:
           aws ecs create-service \
             --cluster ${{ env.ECS_CLUSTER }} \
             --service-name ${{ env.ECS_SERVICE }} \
-            --task-definition AQI-Tracker-Task-3 \
+            --task-definition ${{ env.ECS_TASK_DEFINITION }} \
             --desired-count 1 \
             --launch-type FARGATE \
             --network-configuration "awsvpcConfiguration={subnets=[$SUBNETS],securityGroups=[$SECURITY_GROUP],assignPublicIp=ENABLED}"
