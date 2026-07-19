@@ -1,29 +1,103 @@
 {
-  "family": "aqi-tracker-task",
-  "networkMode": "awsvpc",
-  "executionRoleArn": "arn:aws:iam::082923708139:role/ecsTaskexecutionRoleAQI",
-  "containerDefinitions": [
-    {
-      "name": "aqi-tracker",
-      "image": "082923708139.dkr.ecr.ap-south-1.amazonaws.com/aqi-tracker:latest",
-      "essential": true,
-      "portMappings": [
+    "taskDefinitionArn": "arn:aws:ecs:ap-south-1:082923708139:task-definition/AQI-Tracker-Task-3:1",
+    "containerDefinitions": [
         {
-          "containerPort": 8501,
-          "protocol": "tcp"
+            "name": "aqi-tracker-app",
+            "image": "082923708139.dkr.ecr.ap-south-1.amazonaws.com/aqi-tracker@sha256:1318603b69e703a9e15cc29c52ffed23c9f1ccba193860fe4ae046427bf4b376",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "containerPort": 8501,
+                    "hostPort": 8501,
+                    "protocol": "tcp",
+                    "name": "aqi-tracker-app-8501-tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "WAQI_TOKEN",
+                    "value": "8d3ef47168669198e75ada3d0ed682e0d169eb85"
+                },
+                {
+                    "name": "AWS_REGION",
+                    "value": "ap-south-1"
+                }
+            ],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "ulimits": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/AQI-Tracker-3.0-Task",
+                    "awslogs-create-group": "true",
+                    "awslogs-region": "ap-south-1",
+                    "awslogs-stream-prefix": "ecs"
+                },
+                "secretOptions": []
+            },
+            "systemControls": []
         }
-      ],
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-group": "/ecs/aqi-tracker",
-          "awslogs-region": "ap-south-1",
-          "awslogs-stream-prefix": "ecs"
+    ],
+    "family": "AQI-Tracker-Task-3",
+    "taskRoleArn": "arn:aws:iam::082923708139:role/BedrockAccessPolicy_aqi",
+    "executionRoleArn": "arn:aws:iam::082923708139:role/ecsTaskExecutionRole_aqi",
+    "networkMode": "awsvpc",
+    "revision": 1,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.21"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
         }
-      }
-    }
-  ],
-  "requiresCompatibilities": ["FARGATE"],
-  "cpu": "256",
-  "memory": "512"
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE",
+        "MANAGED_INSTANCES"
+    ],
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "1024",
+    "memory": "2048",
+    "registeredAt": "2026-07-17T10:30:59.265Z",
+    "registeredBy": "arn:aws:iam::082923708139:user/aj-user",
+    "enableFaultInjection": false,
+    "tags": []
 }

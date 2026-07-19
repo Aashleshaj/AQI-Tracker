@@ -1,15 +1,4 @@
 services:
-  ollama:
-    image: ollama/ollama:latest
-    container_name: ollama
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama_data:/root/.ollama
-    restart: always
-  #   command: >
-  #     sh -c "sleep 10 && ollama pull ${OLLAMA_AQI_MODEL}"
-
   aqi-tracker:
     container_name: aqi-tracker
     build:
@@ -18,13 +7,6 @@ services:
     ports:
       - "8501:8501"
     environment:  
-      # Overrides the app.py fallback to point to the new container
-      - OLLAMA_BASE_URL=http://ollama:11434
-      - OLLAMA_AQI_MODEL=${OLLAMA_AQI_MODEL}
-    depends_on:
-      - ollama
+      - AWS_REGION=ap-south-1  # Adjust to your preferred AWS region
+      - WAQI_TOKEN=${WAQI_TOKEN}
     restart: always
-
-volumes:
-  # Persists the downloaded LLM weights across container restarts
-  ollama_data:

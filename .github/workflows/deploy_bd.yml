@@ -1,0 +1,64 @@
+name: Deploy AQI Tracker to Amazon ECS
+
+on:
+  push:
+    branches: [ "main", "master" ]
+
+env:
+  AWS_REGION: ap-south-1                  
+  ECR_REPOSITORY: aqi-tracker             
+  ECS_CLUSTER: AQI-Cluster               
+  ECS_SERVICE: aqi-tracker-service       
+  ECS_TASK_DEFINITION: ./ecs_fargate_task_definition.json 
+  CONTAINER_NAME: aqi-app                 
+
+# 1. ADD THIS PERMISSIONS BLOCK FOR OIDC
+permissions:
+  id-token: write # Required for requesting the OIDC JWT
+  contents: read  # Required for actions/checkout
+
+jobs:
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # 2. UPDATE THIS STEP TO USE THE ROLE ARN INSTEAD OF ACCESS KEYS
+    - name: Configure AWS credentials via OIDC
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::082923708139:role/GitHubActionsOIDCRole
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+    - name: Render new image ID into Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+        container-name: ${{ env.CONTAINER_NAME }}
+        image: ${{ steps.build-image.outputs.image }}
+
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: true
