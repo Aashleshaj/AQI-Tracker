@@ -2,7 +2,7 @@ name: Deploy AQI Tracker to Amazon ECS
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main", "master", "ecs_deployment" ]
 
 env:
   AWS_REGION: ap-south-1                  
