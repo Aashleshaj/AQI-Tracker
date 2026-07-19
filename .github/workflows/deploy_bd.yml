@@ -30,6 +30,13 @@ jobs:
       with:
         role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
         aws-region: ${{ secrets.AWS_REGION }} # Simplified to use the env block variable
+    
+    - name: Create ECS Cluster (if not exists)
+      run: |
+        aws ecs create-cluster \
+          --cluster-name ${{ env.ECS_CLUSTER }} \
+          --capacity-providers FARGATE \
+          --default-capacity-provider-strategy capacityProvider=FARGATE,weight=1
 
     - name: Login to Amazon ECR
       id: login-ecr
