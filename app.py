@@ -8,6 +8,7 @@ import sys
 import os
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
+import boto3
 
 # --------------------------
 # CONFIG
@@ -66,8 +67,7 @@ def get_aqi_color(aqi):
 
 def parse_user_intent(user_text):
     """
-    Uses a local LLM (Ollama) to extract the city name or reject the query.
-    Assumes Ollama is running locally with the 'gemma3:4b' (or similar) model.
+    Uses Amazon Bedrock to extract the city name or reject the query.
     """
     prompt = f"""
     You are an Air Quality extraction tool. 
@@ -80,22 +80,27 @@ def parse_user_intent(user_text):
 
     Return ONLY the JSON object, with no markdown formatting or extra text.
     """
-    # Fetch the URL dynamically, defaulting to the Docker host alias
-    ollama_url = os.environ.get("OLLAMA_BASE_URL", "http://host.docker.internal:11434")
+    
     try:
-        response = requests.post(
-            f"{ollama_url}/api/generate",
-            json={
-                "model": os.environ.get("OLLAMA_AQI_MODEL"),
-                "prompt": prompt,
-                "stream": False,
-                "format": "json"
-            }
+        # Initialize the Bedrock client
+        # AWS SDK automatically looks for IAM role credentials inside ECS Fargate
+        bedrock = boto3.client(
+            service_name="bedrock-runtime",
+            region_name=os.environ.get("AWS_REGION", "ap-south-1")
         )
-        response_data = response.json()
-        return json.loads(response_data["response"])
+        
+        # Call Bedrock (Using Meta Llama 3 8B as a highly effective, cost-efficient choice)
+        response = bedrock.converse(
+            modelId="meta.llama3-8b-instruct-v1:0", 
+            messages=[{"role": "user", "content": [{"text": prompt}]}]
+        )
+        
+        # Extract response text
+        result_text = response["output"]["message"]["content"][0]["text"]
+        return json.loads(result_text.strip())
+        
     except Exception as e:
-        return {"error": "Failed to process query with LLM.", "details": str(e)}
+        return {"error": "Failed to process query with Bedrock.", "details": str(e)}
 
 # --------------------------
 # UI & CHAT STATE

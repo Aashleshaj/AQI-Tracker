@@ -1,29 +1,53 @@
 {
-  "family": "aqi-tracker-task",
-  "networkMode": "awsvpc",
-  "executionRoleArn": "arn:aws:iam::082923708139:role/ecsTaskexecutionRoleAQI",
-  "containerDefinitions": [
-    {
-      "name": "aqi-tracker",
-      "image": "082923708139.dkr.ecr.ap-south-1.amazonaws.com/aqi-tracker:latest",
-      "essential": true,
-      "portMappings": [
+    "family": "AQI-Tracker-Task-3",
+    "containerDefinitions": [
         {
-          "containerPort": 8501,
-          "protocol": "tcp"
+            "name": "aqi-tracker-app",
+            "image": "082923708139.dkr.ecr.ap-south-1.amazonaws.com/aqi-tracker:3.0",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "containerPort": 8501,
+                    "hostPort": 8501,
+                    "protocol": "tcp",
+                    "name": "aqi-tracker-app-8501-tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "AWS_REGION",
+                    "value": "ap-south-1"
+                }
+            ],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "ulimits": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/AQI-Tracker-3.0-Task",
+                    "awslogs-create-group": "true",
+                    "awslogs-region": "ap-south-1",
+                    "awslogs-stream-prefix": "ecs"
+                },
+                "secretOptions": []
+            },
+            "systemControls": []
         }
-      ],
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-group": "/ecs/aqi-tracker",
-          "awslogs-region": "ap-south-1",
-          "awslogs-stream-prefix": "ecs"
-        }
-      }
+    ],
+    "taskRoleArn": "arn:aws:iam::082923708139:role/BedrockAccessPolicy_aqi",
+    "executionRoleArn": "arn:aws:iam::082923708139:role/ecsTaskExecutionRole_aqi",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "1024",
+    "memory": "2048",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
     }
-  ],
-  "requiresCompatibilities": ["FARGATE"],
-  "cpu": "256",
-  "memory": "512"
 }

@@ -1,0 +1,97 @@
+name: Deploy AQI Tracker to Amazon ECS
+
+on:
+  push:
+    branches: [ "main", "master" ]
+
+env:
+  AWS_REGION: ap-south-1                  
+  ECR_REPOSITORY: aqi-tracker             
+  ECS_CLUSTER: AQI-Cluster               
+  ECS_SERVICE: aqi-tracker-service       
+  ECS_TASK_DEFINITION: ./ecs_fargate_task_definition.json 
+  CONTAINER_NAME: aqi-tracker-app # Fixed to match the JSON file exactly
+
+permissions:
+  id-token: write 
+  contents: read  
+
+jobs:
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials via OIDC
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+        aws-region: ${{ secrets.AWS_REGION }} # Simplified to use the env block variable
+    
+    - name: Create ECS Cluster (if not exists)
+      run: |
+        aws ecs create-cluster \
+          --cluster-name ${{ env.ECS_CLUSTER }} \
+          --capacity-providers FARGATE \
+          --default-capacity-provider-strategy capacityProvider=FARGATE,weight=1
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+    - name: Render new image ID into Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+        container-name: ${{ env.CONTAINER_NAME }}
+        image: ${{ steps.build-image.outputs.image }}
+        environment-variables: |
+          WAQI_TOKEN=${{ secrets.WAQI_TOKEN }} # Securely injects token into container environment at runtime
+
+    - name: Create ECS Service if it does not exist
+      env:
+        SUBNETS: ${{ secrets.AWS_SUBNETS }} 
+        SECURITY_GROUP: ${{ secrets.AWS_SECURITY_GROUP }} 
+      run: |
+        SERVICE_STATUS=$(aws ecs describe-services \
+          --cluster ${{ env.ECS_CLUSTER }} \
+          --services ${{ env.ECS_SERVICE }} \
+          --query "services[0].status" \
+          --output text)
+        
+        if [ "$SERVICE_STATUS" == "ACTIVE" ]; then
+          echo "Service already exists. Proceeding to update deployment..."
+        else
+          echo "Service not found. Creating a new Fargate service..."
+          aws ecs create-service \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --service-name ${{ env.ECS_SERVICE }} \
+            --task-definition ${{ env.ECS_TASK_DEFINITION }} \
+            --desired-count 1 \
+            --launch-type FARGATE \
+            --network-configuration "awsvpcConfiguration={subnets=[$SUBNETS],securityGroups=[$SECURITY_GROUP],assignPublicIp=ENABLED}"
+          
+          sleep 15 
+        fi
+
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: true
