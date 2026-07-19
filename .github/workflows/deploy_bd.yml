@@ -62,6 +62,32 @@ jobs:
         environment-variables: |
           WAQI_TOKEN=${{ secrets.WAQI_TOKEN }} # Securely injects token into container environment at runtime
 
+    - name: Create ECS Service if it does not exist
+      env:
+        SUBNETS: ${{ secrets.AWS_SUBNETS }} 
+        SECURITY_GROUP: ${{ secrets.AWS_SECURITY_GROUP }} 
+      run: |
+        SERVICE_STATUS=$(aws ecs describe-services \
+          --cluster ${{ env.ECS_CLUSTER }} \
+          --services ${{ env.ECS_SERVICE }} \
+          --query "services[0].status" \
+          --output text)
+        
+        if [ "$SERVICE_STATUS" == "ACTIVE" ]; then
+          echo "Service already exists. Proceeding to update deployment..."
+        else
+          echo "Service not found. Creating a new Fargate service..."
+          aws ecs create-service \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --service-name ${{ env.ECS_SERVICE }} \
+            --task-definition AQI-Tracker-Task-3 \
+            --desired-count 1 \
+            --launch-type FARGATE \
+            --network-configuration "awsvpcConfiguration={subnets=[$SUBNETS],securityGroups=[$SECURITY_GROUP],assignPublicIp=ENABLED}"
+          
+          sleep 15 
+        fi
+
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v2
       with:
