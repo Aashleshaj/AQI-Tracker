@@ -10,12 +10,11 @@ env:
   ECS_CLUSTER: AQI-Cluster               
   ECS_SERVICE: aqi-tracker-service       
   ECS_TASK_DEFINITION: ./ecs_fargate_task_definition.json 
-  CONTAINER_NAME: aqi-app                 
+  CONTAINER_NAME: aqi-tracker-app # Fixed to match the JSON file exactly
 
-# 1. ADD THIS PERMISSIONS BLOCK FOR OIDC
 permissions:
-  id-token: write # Required for requesting the OIDC JWT
-  contents: read  # Required for actions/checkout
+  id-token: write 
+  contents: read  
 
 jobs:
   deploy:
@@ -26,12 +25,11 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    # 2. UPDATE THIS STEP TO USE THE ROLE ARN INSTEAD OF ACCESS KEYS
     - name: Configure AWS credentials via OIDC
       uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-        aws-region: ${{ secrets.AWS_REGION }}
+        aws-region: ${{ secrets.AWS_REGION }} # Simplified to use the env block variable
 
     - name: Login to Amazon ECR
       id: login-ecr
@@ -54,6 +52,8 @@ jobs:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.build-image.outputs.image }}
+        environment-variables: |
+          WAQI_TOKEN=${{ secrets.WAQI_TOKEN }} # Securely injects token into container environment at runtime
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v2
