@@ -6,9 +6,13 @@ import requests
 import asyncio
 import sys
 import os
+import boto3
+from dotenv import load_dotenv  # <--- Added import
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
-import boto3
+
+# Load environment variables from .env file
+load_dotenv()  # <--- Added function call
 
 # --------------------------
 # CONFIG
@@ -25,7 +29,7 @@ st.set_page_config(
 async def fetch_aqi_via_mcp(city: str):
     """Communicates with the local MCP server via stdio transport."""
     server_params = StdioServerParameters(
-        command=sys.executable,  # <--- CHANGE THIS from "python" to sys.executable
+        command=sys.executable,  
         args=["aqi_mcp_server.py"]
     )
 
@@ -67,40 +71,78 @@ def get_aqi_color(aqi):
 
 def parse_user_intent(user_text):
     """
-    Uses Amazon Bedrock to extract the city name or reject the query.
+    Uses either Amazon Bedrock or Local Ollama based on the LLM_PROVIDER env variable.
     """
     prompt = f"""
-    You are an Air Quality extraction tool. 
-    Analyze the following user query: "{user_text}"
+    You are a strict Air Quality intent extraction tool. 
+    Analyze the user's query and extract the city name ONLY if they are explicitly asking about Air Quality, AQI, or pollution. 
+    If they ask about weather, temperature, rain, or ANY other topic, you must reject it.
     
-    Rules:
-    1. If the user asks about ANY other topic with city name (e.g., weather, history, coding, general facts), or if no city is mentioned, output strictly: {{"error": "I don't have info"}}
-    2. If the user is asking about air quality, pollution, or AQI for a specific city, extract ONLY the city name.
-    3. Output the result in strictly valid JSON format: {{"city": "ExtractedCityName"}}
-
-    Return ONLY the JSON object, with no markdown formatting or extra text.
+    Examples:
+    Query: "What is the AQI in London?" 
+    Response: {{"city": "London"}}
+    
+    Query: "How is the pollution in Mumbai?" 
+    Response: {{"city": "Mumbai"}}
+    
+    Query: "What is the weather in Paris?" 
+    Response: {{"error": "I don't have info"}}
+    
+    Query: "Is it going to rain in Tokyo today?" 
+    Response: {{"error": "I don't have info"}}
+    
+    Query: "Tell me about the history of New York." 
+    Response: {{"error": "I don't have info"}}
+    
+    Current Query: "{user_text}"
+    
+    Output strictly valid JSON and nothing else.
     """
     
-    try:
-        # Initialize the Bedrock client
-        # AWS SDK automatically looks for IAM role credentials inside ECS Fargate
-        bedrock = boto3.client(
-            service_name="bedrock-runtime",
-            region_name=os.environ.get("AWS_REGION", "ap-south-1")
-        )
-        
-        # Call Bedrock (Using Meta Llama 3 8B as a highly effective, cost-efficient choice)
-        response = bedrock.converse(
-            modelId="meta.llama3-8b-instruct-v1:0", 
-            messages=[{"role": "user", "content": [{"text": prompt}]}]
-        )
-        
-        # Extract response text
-        result_text = response["output"]["message"]["content"][0]["text"]
-        return json.loads(result_text.strip())
-        
-    except Exception as e:
-        return {"error": "Failed to process query with Bedrock.", "details": str(e)}
+    # Check which provider to use (default to ollama for local dev)
+    provider = os.environ.get("LLM_PROVIDER", "ollama").lower()
+
+    if provider == "bedrock":
+        try:
+            print("Using Amazon Bedrock for intent extraction...")
+            # Initialize the Bedrock client
+            bedrock = boto3.client(
+                service_name="bedrock-runtime",
+                region_name=os.environ.get("AWS_REGION", "ap-south-1")
+            )
+            
+            # Call Bedrock (Using Meta Llama 3 8B as default)
+            model_id = os.environ.get("BEDROCK_MODEL_ID", "meta.llama3-8b-instruct-v1:0")
+            response = bedrock.converse(
+                modelId=model_id, 
+                messages=[{"role": "user", "content": [{"text": prompt}]}]
+            )
+            
+            # Extract response text
+            result_text = response["output"]["message"]["content"][0]["text"]
+            return json.loads(result_text.strip())
+            
+        except Exception as e:
+            return {"error": "Failed to process query with Bedrock.", "details": str(e)}
+            
+    else:
+        # Fallback to Ollama logic
+        print("Using Ollama for intent extraction...")
+        ollama_url = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
+        try:
+            response = requests.post(
+                f"{ollama_url}/api/generate",
+                json={
+                    "model": os.environ.get("OLLAMA_AQI_MODEL", "gemma3:4b"),
+                    "prompt": prompt,
+                    "stream": False,
+                    "format": "json"
+                }
+            )
+            response_data = response.json()
+            return json.loads(response_data["response"])
+        except Exception as e:
+            return {"error": "Failed to process query with Ollama LLM.", "details": str(e)}
 
 # --------------------------
 # UI & CHAT STATE
