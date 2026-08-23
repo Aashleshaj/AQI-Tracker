@@ -47,7 +47,6 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: aqi-tracker
-        # IMAGE_TAG: ${{ github.sha }}
         IMAGE_TAG: v${{ github.run_number }}
       run: |
         # docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
@@ -63,7 +62,6 @@ jobs:
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
-        # image: ${{ steps.build-image.outputs.image }}
         image: ${{ steps.login-ecr.outputs.registry }}/aqi-tracker:v${{ github.run_number }}
         environment-variables: |
           WAQI_TOKEN=${{ secrets.WAQI_TOKEN }} # Securely injects token into container environment at runtime
