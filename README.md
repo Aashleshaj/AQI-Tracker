@@ -75,3 +75,25 @@ http://localhost:8501
 **Data Retrieval**: The MCP server securely reads the loaded WAQI token, queries the external API, and returns the payload.
 
 **Rendering**: The frontend receives the JSON payload and dynamically renders a color-coded status box and Plotly bar charts based on the current pollutants.
+
+## CI/CD Pipeline & Deployment Workflow
+
+This project uses GitHub Actions for Continuous Integration and Continuous Deployment (CI/CD). Every push to the `main` branch automatically builds the application and deploys it to an AWS ECS Fargate cluster.
+
+### Docker Image Tagging Convention
+Images pushed to Amazon Elastic Container Registry (ECR) use a **sequential versioning strategy** alongside a rolling latest tag:
+* **Sequential Version (e.g., `v3`)**: Every successful build is tagged with an incremental version number matching the GitHub Actions run number. This provides a clear, linear history of deployments.
+* **`latest`**: The `latest` tag is overwritten on every successful deployment, allowing developers to easily pull the most recent version for local testing.
+
+### Automated Deployment Steps
+When a workflow is triggered, the pipeline executes the following steps:
+
+1. **Configure AWS Credentials:** Authenticates with AWS using standard GitHub Action secrets (`AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`).
+2. **Login to Amazon ECR:** Establishes a secure connection to the container registry.
+3. **Build & Tag Docker Image:** Compiles the Streamlit application and tags it using the `${{ github.run_number }}` variable (e.g., `aqi-tracker:v4`) and the `latest` tag.
+4. **Push to Registry:** Uploads the newly tagged images to Amazon ECR.
+5. **Render Task Definition:** Dynamically updates the `task-definition.json` file to point to the new sequential version tag (e.g., `v4`). 
+    * *Note: The task definition is configured with a specific Task Role (`AQITrackerTaskRole`) that grants the container permission to invoke Amazon Bedrock models.*
+6. **Deploy to Amazon ECS:** Deploys the updated task definition to the Fargate cluster and waits for the new container to stabilize before gracefully draining the old ones.
+
+By strictly deploying the exact sequential version number, we ensure that rollbacks are precise, auto-scaling events are deterministic, and it is always easy to identify which release is running in production.
