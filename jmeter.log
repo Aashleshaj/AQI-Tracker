@@ -1,0 +1,193 @@
+2026-09-13 21:34:51,558 INFO o.a.j.u.JMeterUtils: Setting Locale to en_EN
+2026-09-13 21:34:51,585 INFO o.a.j.JMeter: Loading user properties from: C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\apache-jmeter-5.6.3\bin\user.properties
+2026-09-13 21:34:51,587 INFO o.a.j.JMeter: Loading system properties from: C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\apache-jmeter-5.6.3\bin\system.properties
+2026-09-13 21:34:51,599 INFO o.a.j.JMeter: Copyright (c) 1998-2024 The Apache Software Foundation
+2026-09-13 21:34:51,599 INFO o.a.j.JMeter: Version 5.6.3
+2026-09-13 21:34:51,599 INFO o.a.j.JMeter: java.version=26.0.2.1
+2026-09-13 21:34:51,599 INFO o.a.j.JMeter: java.vm.name=Java HotSpot(TM) 64-Bit Server VM
+2026-09-13 21:34:51,599 INFO o.a.j.JMeter: os.name=Windows 11
+2026-09-13 21:34:51,600 INFO o.a.j.JMeter: os.arch=amd64
+2026-09-13 21:34:51,600 INFO o.a.j.JMeter: os.version=10.0
+2026-09-13 21:34:51,600 INFO o.a.j.JMeter: file.encoding=UTF-8
+2026-09-13 21:34:51,600 INFO o.a.j.JMeter: java.awt.headless=true
+2026-09-13 21:34:51,600 INFO o.a.j.JMeter: Max memory     =1073741824
+2026-09-13 21:34:51,600 INFO o.a.j.JMeter: Available Processors =12
+2026-09-13 21:34:51,626 INFO o.a.j.JMeter: Default Locale=English (EN)
+2026-09-13 21:34:51,627 INFO o.a.j.JMeter: JMeter  Locale=English (EN)
+2026-09-13 21:34:51,627 INFO o.a.j.JMeter: JMeterHome=C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\apache-jmeter-5.6.3
+2026-09-13 21:34:51,627 INFO o.a.j.JMeter: user.dir  =C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\AQI-Tracker\performance
+2026-09-13 21:34:51,628 INFO o.a.j.JMeter: PWD       =C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\AQI-Tracker\performance
+2026-09-13 21:34:51,631 INFO o.a.j.JMeter: IP: 192.168.1.164 Name: Aashlesha FullName: host.docker.internal
+2026-09-13 21:34:51,652 INFO o.a.j.JMeter: Setting property 'jmeter.reportgenerator.outputdir' to:'C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\AQI-Tracker\performance\performance-tests\report'
+2026-09-13 21:34:51,657 INFO o.a.j.s.FileServer: Default base='C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\AQI-Tracker\performance'
+2026-09-13 21:34:51,658 INFO o.a.j.s.FileServer: Set new base='C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\AQI-Tracker\performance\performance-tests'
+2026-09-13 21:34:52,134 INFO o.a.j.s.SaveService: Testplan (JMX) version: 2.2. Testlog (JTL) version: 2.2
+2026-09-13 21:34:52,171 INFO o.a.j.s.SaveService: Using SaveService properties version 5.0
+2026-09-13 21:34:52,178 INFO o.a.j.s.SaveService: Using SaveService properties file encoding UTF-8
+2026-09-13 21:34:52,183 INFO o.a.j.s.SaveService: Loading file: performance-tests\AQI_API_Load.jmx
+2026-09-13 21:34:52,276 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/html is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-09-13 21:34:52,276 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xhtml+xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-09-13 21:34:52,276 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-09-13 21:34:52,276 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-09-13 21:34:52,276 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/vnd.wap.wml is org.apache.jmeter.protocol.http.parser.RegexpHTMLParser
+2026-09-13 21:34:52,276 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/css is org.apache.jmeter.protocol.http.parser.CssParser
+2026-09-13 21:34:52,352 INFO o.a.j.JMeter: Creating summariser <summary>
+2026-09-13 21:34:52,360 INFO o.a.j.r.d.ReportGenerator: ReportGenerator will use for Parsing the separator: ','
+2026-09-13 21:34:52,361 INFO o.a.j.r.d.ReportGenerator: Will generate report at end of test from  results file: performance-tests/results.jtl
+2026-09-13 21:34:52,361 INFO o.a.j.r.d.ReportGenerator: Reading report generator properties from: C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\apache-jmeter-5.6.3\bin\reportgenerator.properties
+2026-09-13 21:34:52,363 INFO o.a.j.r.d.ReportGenerator: Merging with JMeter properties
+2026-09-13 21:34:52,370 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.temp_dir' not found, using default value 'temp' instead.
+2026-09-13 21:34:52,375 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.apdex_per_transaction' not found, using default value 'null' instead.
+2026-09-13 21:34:52,375 INFO o.a.j.r.c.ReportGeneratorConfiguration: apdex_per_transaction is empty, not APDEX per transaction customization
+2026-09-13 21:34:52,376 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.sample_filter' not found, using default value 'null' instead.
+2026-09-13 21:34:52,376 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.report_title' not found, using default value 'null' instead.
+2026-09-13 21:34:52,377 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.start_date' not found, using default value 'null' instead.
+2026-09-13 21:34:52,377 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.end_date' not found, using default value 'null' instead.
+2026-09-13 21:34:52,377 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.date_format' not found, using default value 'null' instead.
+2026-09-13 21:34:52,378 INFO o.a.j.r.c.ReportGeneratorConfiguration: Will use date range start date: null, end date: null
+2026-09-13 21:34:52,386 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.totalTPS.exclude_controllers' not found, using default value 'false' instead.
+2026-09-13 21:34:52,387 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.activeThreadsOverTime.exclude_controllers' not found, using default value 'false' instead.
+2026-09-13 21:34:52,387 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.timeVsThreads.exclude_controllers' not found, using default value 'false' instead.
+2026-09-13 21:34:52,388 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.responseTimeDistribution.exclude_controllers' not found, using default value 'false' instead.
+2026-09-13 21:34:52,388 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.transactionsPerSecond.exclude_controllers' not found, using default value 'false' instead.
+2026-09-13 21:34:52,388 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.responseTimePercentiles.exclude_controllers' not found, using default value 'false' instead.
+2026-09-13 21:34:52,388 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.responseTimePercentilesOverTime.exclude_controllers' not found, using default value 'false' instead.
+2026-09-13 21:34:52,388 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.responseTimesOverTime.exclude_controllers' not found, using default value 'false' instead.
+2026-09-13 21:34:52,389 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.connectTimeOverTime.exclude_controllers' not found, using default value 'false' instead.
+2026-09-13 21:34:52,389 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.latenciesOverTime.exclude_controllers' not found, using default value 'false' instead.
+2026-09-13 21:34:52,391 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.json.filters_only_sample_series' not found, using default value 'true' instead.
+2026-09-13 21:34:52,391 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.json.series_filter' not found, using default value '' instead.
+2026-09-13 21:34:52,391 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.json.show_controllers_only' not found, using default value 'false' instead.
+2026-09-13 21:34:52,392 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.html.filters_only_sample_series' not found, using default value 'true' instead.
+2026-09-13 21:34:52,393 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.html.series_filter' not found, using default value '' instead.
+2026-09-13 21:34:52,393 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.html.show_controllers_only' not found, using default value 'false' instead.
+2026-09-13 21:34:52,423 INFO o.a.j.e.StandardJMeterEngine: Running the test!
+2026-09-13 21:34:52,425 INFO o.a.j.s.SampleEvent: List of sample_variables: []
+2026-09-13 21:34:52,425 INFO o.a.j.s.SampleEvent: List of sample_variables: []
+2026-09-13 21:34:52,434 INFO o.a.j.e.u.CompoundVariable: Note: Function class names must contain the string: '.functions.'
+2026-09-13 21:34:52,434 INFO o.a.j.e.u.CompoundVariable: Note: Function class names must not contain the string: '.gui.'
+2026-09-13 21:34:52,577 INFO o.a.j.JMeter: Running test (1789331692577)
+2026-09-13 21:34:52,607 INFO o.a.j.e.StandardJMeterEngine: Starting ThreadGroup: 1 : AQI_API_Load
+2026-09-13 21:34:52,607 INFO o.a.j.e.StandardJMeterEngine: Starting 20 threads for group AQI_API_Load.
+2026-09-13 21:34:52,607 INFO o.a.j.e.StandardJMeterEngine: Thread will continue on error
+2026-09-13 21:34:52,608 INFO o.a.j.t.ThreadGroup: Starting thread group... number=1 threads=20 ramp-up=20 delayedStart=false
+2026-09-13 21:34:52,631 INFO o.a.j.t.ThreadGroup: Started thread group number 1
+2026-09-13 21:34:52,632 INFO o.a.j.e.StandardJMeterEngine: All thread groups have been started
+2026-09-13 21:34:52,743 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-1
+2026-09-13 21:34:52,745 INFO o.a.j.s.FileServer: Stored: C:/Users/91771/Documents/Python Programs/git_repos/Aashleshaj/AQI-Tracker/performance/performance-tests/data/cities.csv
+2026-09-13 21:34:52,916 INFO o.a.j.p.h.s.HTTPHCAbstractImpl: Local host = Aashlesha
+2026-09-13 21:34:52,928 INFO o.a.j.p.h.s.HTTPHC4Impl: HTTP request retry count = 0
+2026-09-13 21:34:52,930 INFO o.a.j.s.SampleResult: Note: Sample TimeStamps are START times
+2026-09-13 21:34:52,930 INFO o.a.j.s.SampleResult: sampleresult.default.encoding is set to UTF-8
+2026-09-13 21:34:52,930 INFO o.a.j.s.SampleResult: sampleresult.useNanoTime=true
+2026-09-13 21:34:52,930 INFO o.a.j.s.SampleResult: sampleresult.nanoThreadSleep=5000
+2026-09-13 21:34:53,737 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-2
+2026-09-13 21:34:54,736 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-3
+2026-09-13 21:34:55,735 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-4
+2026-09-13 21:34:56,734 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-5
+2026-09-13 21:34:57,735 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-6
+2026-09-13 21:34:58,733 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-7
+2026-09-13 21:34:59,732 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-8
+2026-09-13 21:35:00,268 INFO o.a.j.r.Summariser: summary +     21 in 00:00:08 =    2.7/s Avg:  1100 Min:     3 Max:  2083 Err:    21 (100.00%) Active: 8 Started: 8 Finished: 0
+2026-09-13 21:35:00,731 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-9
+2026-09-13 21:35:01,731 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-10
+2026-09-13 21:35:02,729 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-11
+2026-09-13 21:35:03,728 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-12
+2026-09-13 21:35:04,726 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-13
+2026-09-13 21:35:05,726 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-14
+2026-09-13 21:35:06,726 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-15
+2026-09-13 21:35:07,725 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-16
+2026-09-13 21:35:08,724 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-17
+2026-09-13 21:35:09,723 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-18
+2026-09-13 21:35:10,723 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-19
+2026-09-13 21:35:11,720 INFO o.a.j.t.JMeterThread: Thread started: AQI_API_Load 1-20
+2026-09-13 21:35:20,584 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-6
+2026-09-13 21:35:20,584 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-6
+2026-09-13 21:35:20,756 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-3
+2026-09-13 21:35:20,756 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-3
+2026-09-13 21:35:20,830 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-1
+2026-09-13 21:35:20,830 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-1
+2026-09-13 21:35:20,955 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-4
+2026-09-13 21:35:20,955 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-4
+2026-09-13 21:35:21,191 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-2
+2026-09-13 21:35:21,192 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-2
+2026-09-13 21:35:22,589 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-5
+2026-09-13 21:35:22,590 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-5
+2026-09-13 21:35:23,445 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-7
+2026-09-13 21:35:23,445 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-7
+2026-09-13 21:35:23,913 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-8
+2026-09-13 21:35:23,914 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-8
+2026-09-13 21:35:27,110 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-9
+2026-09-13 21:35:27,110 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-9
+2026-09-13 21:35:27,412 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-11
+2026-09-13 21:35:27,412 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-11
+2026-09-13 21:35:28,011 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-12
+2026-09-13 21:35:28,011 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-12
+2026-09-13 21:35:28,310 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-10
+2026-09-13 21:35:28,310 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-10
+2026-09-13 21:35:30,045 INFO o.a.j.r.Summariser: summary +    347 in 00:00:30 =   11.7/s Avg:  1088 Min:     1 Max:  1453 Err:   347 (100.00%) Active: 8 Started: 20 Finished: 12
+2026-09-13 21:35:30,046 INFO o.a.j.r.Summariser: summary =    368 in 00:00:37 =    9.8/s Avg:  1089 Min:     1 Max:  2083 Err:   368 (100.00%)
+2026-09-13 21:35:30,692 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-13
+2026-09-13 21:35:30,692 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-13
+2026-09-13 21:35:31,756 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-14
+2026-09-13 21:35:31,756 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-14
+2026-09-13 21:35:33,514 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-15
+2026-09-13 21:35:33,515 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-15
+2026-09-13 21:35:34,068 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-16
+2026-09-13 21:35:34,068 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-16
+2026-09-13 21:35:34,766 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-17
+2026-09-13 21:35:34,767 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-17
+2026-09-13 21:35:35,483 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-18
+2026-09-13 21:35:35,483 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-18
+2026-09-13 21:35:36,650 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-19
+2026-09-13 21:35:36,650 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-19
+2026-09-13 21:35:37,346 INFO o.a.j.t.JMeterThread: Thread is done: AQI_API_Load 1-20
+2026-09-13 21:35:37,347 INFO o.a.j.t.JMeterThread: Thread finished: AQI_API_Load 1-20
+2026-09-13 21:35:37,347 INFO o.a.j.e.StandardJMeterEngine: Notifying test listeners of end of test
+2026-09-13 21:35:37,348 INFO o.a.j.s.FileServer: Close: C:/Users/91771/Documents/Python Programs/git_repos/Aashleshaj/AQI-Tracker/performance/performance-tests/data/cities.csv
+2026-09-13 21:35:37,351 INFO o.a.j.r.Summariser: summary +     32 in 00:00:07 =    4.4/s Avg:  1053 Min:     1 Max:  1327 Err:    32 (100.00%) Active: 0 Started: 20 Finished: 20
+2026-09-13 21:35:37,352 INFO o.a.j.r.Summariser: summary =    400 in 00:00:45 =    8.9/s Avg:  1086 Min:     1 Max:  2083 Err:   400 (100.00%)
+2026-09-13 21:35:37,353 INFO o.a.j.JMeter: Generating Dashboard
+2026-09-13 21:35:37,353 INFO o.a.j.r.d.ReportGenerator: Flushing result collector before report Generation
+2026-09-13 21:35:37,368 WARN o.a.j.s.CSVSaveService: Unknown column name 1789331693056
+2026-09-13 21:35:37,368 WARN o.a.j.r.c.CsvSampleReader: File 'C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\AQI-Tracker\performance\performance-tests\results.jtl' does not contain the field names header, ensure the jmeter.save.saveservice.* properties are the same as when the CSV file was created or the file may be read incorrectly when generating report
+2026-09-13 21:35:37,378 INFO o.a.j.r.p.NormalizerSampleConsumer: Using format, 'ms', to parse timeStamp field
+2026-09-13 21:35:37,869 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.AggregateConsumer#stopProducing(): beginDate produced 0 samples
+2026-09-13 21:35:37,869 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.AggregateConsumer#stopProducing(): endDate produced 0 samples
+2026-09-13 21:35:37,873 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.ApdexSummaryConsumer#stopProducing(): apdexSummary produced 0 samples
+2026-09-13 21:35:37,873 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.RequestsSummaryConsumer#stopProducing(): requestsSummary produced 0 samples
+2026-09-13 21:35:37,884 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.StatisticsSummaryConsumer#stopProducing(): statisticsSummary produced 0 samples
+2026-09-13 21:35:37,888 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.Top5ErrorsBySamplerConsumer#stopProducing(): top5ErrorsBySampler produced 0 samples
+2026-09-13 21:35:37,888 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.ErrorsSummaryConsumer#stopProducing(): errorsSummary produced 0 samples
+2026-09-13 21:35:37,888 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.HitsPerSecondGraphConsumer#stopProducing(): hitsPerSecond produced 0 samples
+2026-09-13 21:35:37,929 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.LatencyVSRequestGraphConsumer#stopProducing(): latencyVsRequest produced 0 samples
+2026-09-13 21:35:37,931 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.SyntheticResponseTimeDistributionGraphConsumer#stopProducing(): syntheticResponseTimeDistribution produced 0 samples
+2026-09-13 21:35:37,931 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.BytesThroughputGraphConsumer#stopProducing(): bytesThroughputOverTime produced 0 samples
+2026-09-13 21:35:37,931 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.CodesPerSecondGraphConsumer#stopProducing(): codesPerSecond produced 0 samples
+2026-09-13 21:35:37,955 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ResponseTimeVSRequestGraphConsumer#stopProducing(): responseTimeVsRequest produced 0 samples
+2026-09-13 21:35:37,955 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.FilterConsumer#stopProducing(): startIntervalControlerFilter produced 2793 samples
+2026-09-13 21:35:37,957 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.TotalTPSGraphConsumer#stopProducing(): totalTPS produced 0 samples
+2026-09-13 21:35:37,957 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ActiveThreadsGraphConsumer#stopProducing(): activeThreadsOverTime produced 0 samples
+2026-09-13 21:35:37,957 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.TimeVSThreadGraphConsumer#stopProducing(): timeVsThreads produced 0 samples
+2026-09-13 21:35:37,957 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ResponseTimeDistributionGraphConsumer#stopProducing(): responseTimeDistribution produced 0 samples
+2026-09-13 21:35:37,957 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.TransactionsPerSecondGraphConsumer#stopProducing(): transactionsPerSecond produced 0 samples
+2026-09-13 21:35:37,957 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ResponseTimePercentilesGraphConsumer#stopProducing(): responseTimePercentiles produced 0 samples
+2026-09-13 21:35:37,959 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ResponseTimePercentilesOverTimeGraphConsumer#stopProducing(): responseTimePercentilesOverTime produced 0 samples
+2026-09-13 21:35:37,959 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ResponseTimeOverTimeGraphConsumer#stopProducing(): responseTimesOverTime produced 0 samples
+2026-09-13 21:35:37,961 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ConnectTimeOverTimeGraphConsumer#stopProducing(): connectTimeOverTime produced 0 samples
+2026-09-13 21:35:37,961 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.LatencyOverTimeGraphConsumer#stopProducing(): latenciesOverTime produced 0 samples
+2026-09-13 21:35:37,961 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.FilterConsumer#stopProducing(): nameFilter produced 5985 samples
+2026-09-13 21:35:37,961 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.FilterConsumer#stopProducing(): dateRangeFilter produced 1197 samples
+2026-09-13 21:35:37,961 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.NormalizerSampleConsumer#stopProducing(): normalizer produced 399 samples
+2026-09-13 21:35:37,961 INFO o.a.j.r.p.CsvFileSampleSource: produce(): 399 samples produced in 515ms on channel 0
+2026-09-13 21:35:37,963 INFO o.a.j.r.d.ReportGenerator: Exporting data using exporter:'json' of className:'org.apache.jmeter.report.dashboard.JsonExporter'
+2026-09-13 21:35:38,181 INFO o.a.j.r.d.JsonExporter: Found data for consumer statisticsSummary in context
+2026-09-13 21:35:38,181 INFO o.a.j.r.d.JsonExporter: Creating statistics for overall
+2026-09-13 21:35:38,182 INFO o.a.j.r.d.JsonExporter: Creating statistics for other transactions
+2026-09-13 21:35:38,184 INFO o.a.j.r.d.JsonExporter: Checking output folder
+2026-09-13 21:35:38,186 INFO o.a.j.r.d.JsonExporter: Writing statistics JSON to C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\AQI-Tracker\performance\performance-tests\report\statistics.json
+2026-09-13 21:35:38,286 INFO o.a.j.r.d.ReportGenerator: Exporting data using exporter:'html' of className:'org.apache.jmeter.report.dashboard.HtmlTemplateExporter'
+2026-09-13 21:35:38,296 INFO o.a.j.r.d.HtmlTemplateExporter: Will generate dashboard in folder: C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\AQI-Tracker\performance\performance-tests\report
+2026-09-13 21:35:38,508 INFO o.a.j.r.d.HtmlTemplateExporter: Report will be generated in: C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\AQI-Tracker\performance\performance-tests\report, creating folder structure
+2026-09-13 21:35:38,516 INFO o.a.j.r.d.TemplateVisitor: Copying folder from 'C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\apache-jmeter-5.6.3\bin\report-template' to 'C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\AQI-Tracker\performance\performance-tests\report', got message: C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\AQI-Tracker\performance\performance-tests\report, found non empty folder with following content [C:\Users\91771\Documents\Python Programs\git_repos\Aashleshaj\AQI-Tracker\performance\performance-tests\report\statistics.json], will be ignored
+2026-09-13 21:35:40,269 INFO o.a.j.JMeter: Dashboard generated
