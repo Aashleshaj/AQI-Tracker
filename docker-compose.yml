@@ -28,6 +28,19 @@ services:
       - ollama
     restart: always
 
+  aqi-api:
+    container_name: aqi-api
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "8000:8000"
+    environment:
+      - WAQI_TOKEN=${WAQI_TOKEN}
+      - MOCK_WAQI=${MOCK_WAQI:-false}
+    depends_on:
+      - ollama
+
 volumes:
   # Persists the downloaded LLM weights across container restarts
   ollama_data:
