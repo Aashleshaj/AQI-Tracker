@@ -29,7 +29,7 @@ The current release refactors the application to focus on **building scalable pr
 * **AI / NLP:** Ollama (Local LLM)
 * **Data Processing & Visualization:** Pandas, Plotly Express
 * **External APIs:** WAQI (World Air Quality Index)
-
+* **Performance Testing:** Apache JMeter
 ---
 
 ## ⚙️ Docker Setup and Installation
@@ -97,3 +97,58 @@ When a workflow is triggered, the pipeline executes the following steps:
 6. **Deploy to Amazon ECS:** Deploys the updated task definition to the Fargate cluster and waits for the new container to stabilize before gracefully draining the old ones.
 
 By strictly deploying the exact sequential version number, we ensure that rollbacks are precise, auto-scaling events are deterministic, and it is always easy to identify which release is running in production.
+
+## ⚡ Performance & Load Testing
+
+To guarantee application stability and high availability during traffic spikes, the service endpoints are evaluated using **Apache JMeter**. 
+
+### Objectives
+* Assess API response times, measure maximum throughput, and identify potential bottlenecks under concurrent user load.
+* Validate that the ECS Fargate tasks maintain low latency and scale effectively under stress.
+
+### Performance Testing Architecture
+To validate the application's stability, Apache JMeter targets the AWS ECS Fargate endpoints. The testing focuses on simulating concurrent user traffic to ensure the Streamlit interface and Amazon Bedrock API integrations maintain low latency under stress.
+
+### Structuring the JMeter Test Plan
+When creating your `.jmx` test plan for the application, configure the following core components:
+
+*   **Thread Group:** This defines your load parameters. For example, you can configure it to simulate 100 concurrent users ramping up over a 60-second period.
+*   **HTTP Request Defaults:** Set the base server name to your AWS ECS Fargate load balancer DNS or public IP, and the port to **8501** (the default Streamlit port).
+*   **HTTP Requests:** Configure specific samplers to hit critical endpoints:
+    *   `GET /`: To test the initial load time of the Streamlit UI.
+    *   `GET /_stcore/health`: To monitor the internal health check endpoint of the Streamlit container.
+*   **Timers:** Add Gaussian random timers to simulate realistic user "think-time" between actions.
+*   **Listeners:** Use the *Summary Report* to capture vital metrics such as total throughput, error rate, and 90th percentile response times. 
+
+### Headless Execution
+For accurate performance metrics, it is best practice to avoid running tests via the JMeter GUI. Execute the tests in CLI (headless) mode using the following command:
+
+```bash
+jmeter -n -t aqi_load_test.jmx -l test_results.jtl -e -o /path/to/html/report
+```
+
+*   **`-n`:** Runs JMeter in non-GUI mode.
+*   **`-t`:** Specifies the path to your `.jmx` test plan.
+*   **`-l`:** Logs the raw results to a `.jtl` file.
+*   **`-e -o`:** Automatically generates a comprehensive HTML dashboard report at the specified output directory.
+
+## 💻 Local Development
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Aashleshaj/AQI-Tracker.git
+   cd AQI-Tracker
+   ```
+
+2. **Build the Docker container:**
+   ```bash
+   docker build -t aqi-tracker .
+   ```
+
+3. **Run the application:**
+   ```bash
+   docker run -p 8501:8501 aqi-tracker
+   ```
+
+4. **Access the dashboard:**
+   Open `http://localhost:8501` in your browser.
