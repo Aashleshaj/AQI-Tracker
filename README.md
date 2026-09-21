@@ -150,5 +150,5 @@ jmeter -n -t aqi_load_test.jmx -l test_results.jtl -e -o /path/to/html/report
    docker run -p 8501:8501 aqi-tracker
    ```
 
-4. **Access the dashboard:**
-   Open `http://localhost:8501` in your browser.
+4. **Access the dashboard:** <br><br>
+   Open ```bash `http://localhost:8501` ``` in your browser.
